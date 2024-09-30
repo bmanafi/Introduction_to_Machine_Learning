@@ -64,7 +64,11 @@
     \end{figure}
     \vfill % This pushes the next content to the bottom
     \vspace{-0.35cm}
+<<<<<<< HEAD
     % \centering\textit{\tiny Most slides are adapted from Dr. Mahdie Soleymani's ML course}
+=======
+    \centering\textit{\tiny Most Slides are adopted from Dr.Soleymani's ML course}
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
 \end{frame}
 
 \begin{frame}    
@@ -73,6 +77,7 @@ subsectionstyle=show/shaded/hide,
 subsubsectionstyle=show/shaded/hide]
 \end{frame}
 
+<<<<<<< HEAD
 
 \section{Introduction}
 
@@ -141,11 +146,83 @@ subsubsectionstyle=show/shaded/hide]
     \end{align*}
     \begin{itemize}
         \item We also show this function with a different notation: $f(x;w)$
+=======
+\section{Introduction}
+\subsection{Probabilistic view in Classification}
+%%%% 0 %%%%%
+
+\begin{frame}{Probabilistic view in classification problem}
+    \begin{itemize}
+        \item First consider a simple classification problem:
+            \begin{itemize}
+                \item We want to find the people with Diabetes and detect them.
+                \item We have two \textbf{observations}: blood cell count and Plasma glucose value.
+                \item Observations are our \textbf{features} and Having Diabetes or not is our \textbf{class label} in this classification problem.
+            \end{itemize}
+    \end{itemize}
+        %%% next frame ->
+    % \begin{center}
+    %     \includegraphics[width=0.45\textwidth]{pic/classification_plot.png}
+    %     \captionof{figure}{\scriptize [Sanja Fidler's Slides, University of Toronto, CSC411]}
+    % \end{center}
+    
+\end{frame}
+%%%%% 0.25 %%%%%%
+\begin{frame}{Probabilistic view in classification problem Cont.}
+    \begin{itemize}
+        \item Dataset visualization (x-axis denotes white blood count and y-axis represents plasma glucose value:
+    \end{itemize}
+    \begin{center}
+        \includegraphics[width=0.45\textwidth]{pic/classification_plot.png}
+        \captionof{figure}{\footnotesize [Sanja Fidler's Slides, University of Toronto, CSC411]}
+    \end{center}
+\end{frame}
+
+%%%%% 0.3 %%%%%
+\begin{frame}{Probabilistic view in classification problem Cont.}
+    \begin{itemize}
+        \item Each \textbf{feature} is a \textbf{random variable} (e.g. white blood count could be between 15 and 65).
+        \item \textbf{Class label} also as a \textbf{random variable} (e.g. a patient could have diabetes or not).
+        \item We observe the feature values for a random sample and intend to find its class label
+            \begin{itemize}
+                \item Evidence : Feature vector $x$
+                \item Objective : Class label
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+%%%%%0.5%%%%%%
+\begin{frame}{Definitions}
+    \begin{itemize}
+        \item Posterior probability : The probability of a class label $C_k$ given a sample $x$
+            \[
+                p(C_k|x)
+            \]
+            
+        \item Likelihood or class conditional probability : pdf of feature vector $x$ for samples of class $C_k$
+            \[
+                 p(x|C_k)
+            \]
+        
+        \item Prior probability : probability of the label be $C_k$ 
+            \[
+                p(C_k)
+            \]
+            
+        \item $p(x)$: pdf of feature vector $x$ 
+            \begin{itemize}
+                \item From total probability theorem:   
+                
+                \[ p(x)=\sum_{k=1}^{K}p(x|C_k)p(C_k)
+                \]
+            \end{itemize}
+        
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
     \end{itemize}
 \end{frame}
 
 
 
+<<<<<<< HEAD
 \section{Logistic Regression}
 
 \subsection{Fundamentals}
@@ -183,11 +260,173 @@ subsubsectionstyle=show/shaded/hide]
         %%%%
         \item We denote the \textcolor{deepred}{features} of a sample with vector $x$ and the \textcolor{deepgreen}{label} with $y$.
         \item In logistic regression we try to find an $f(x;w)$ which predicts \textbf{posterior} probabilities $P(y=1|x)$.
+=======
+%%% 1 %%%%
+\subsection{Probabilistic Classifiers}
+
+\begin{frame}{Probabilistic classifiers}
+    \begin{itemize}
+        \item Probabilistic approaches can be divided in two main categories:
+            \begin{itemize}
+                \item Generative
+                    \begin{itemize}
+                        \item Estimate pdf $p(x, C_k)$ for each class $C_k$ and then use it to find $p(C_k|x)$. Alternatively estimate both pdf $p(x|C_k)$ and $p(C_k)$ to find $p(C_k|x)$.
+                    \end{itemize}
+                \item Discriminative
+                    \begin{itemize}
+                        \item Directly estimate $p(C_k|x)$ for class $C_k$
+                    \end{itemize}
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+%%%%%%%% 1.5 %%%%%%%%%%%%
+\begin{frame}{Probabilistic classifiers Cont.}
+    \begin{itemize}
+        \item Let's assume we have input data $x$ and want to classify the data into labels $y$.
+        \item A generative model learns the \textbf{joint} probability distribution $p(x,y)$.
+            
+        \item A discriminative model learns the \textbf{conditional} probability distribution $p(y|x)$
+           
+    \end{itemize}
+\end{frame}
+
+%%%% 1.6 %%%%%%
+\begin{frame}{Discriminative vs. Generative : example}
+    \begin{itemize}
+        \item Suppose we have the following dataset in form of $(x, y)$:
+            \[
+                (1,0), (1,0), (2,0), (2,1)
+            \]
+        \item $p(x,y)$ is :
+            \[
+            \begin{array}{c|cc}
+                & y=0 & y=1 \\
+                \hline
+            x=1 & \frac{1}{2} & 0 \\
+            x=2 & \frac{1}{4} & \frac{1}{4} \\
+            \end{array}
+            \]
+        \item $p(y|x)$ is :
+            \[
+            \begin{array}{c|cc}
+                & y=0 & y=1 \\
+                \hline
+            x=1 & 1 & 0 \\
+            x=2 & \frac{1}{2} & \frac{1}{2} \\
+            \end{array}
+            \]
+    \end{itemize}
+\end{frame}
+
+%%%%% 1.8 %%%%%
+
+\begin{frame}{Discriminative vs. Generative : example Cont.}
+    \begin{itemize}
+        \item The distribution $p(y|x)$ is the natural distribution for classifying a given sample $x$ into a class $y$.
+            \begin{itemize}
+                \item This is why that algorithms which model this directly are called \textbf{discriminative} algorithms.
+            \end{itemize}
+        \item Generative algorithms model $p(x,y)$, which can be transformed into $p(y|x)$ by Bayes rule and then used for classification.
+            \begin{itemize}
+                \item However, the distribution $p(x,y)$ can also be used for other purposes.
+                \item For example we can use $p(x,y)$ to \textbf{generate} likely $(x,y)$ pairs
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+%%%% 2 %%%%%
+\begin{frame}{Generative Approach}
+    \begin{enumerate}
+        \item Inference
+        \begin{itemize}
+            \item Determine class conditional densities $p(x|C_k)$ and priors $p(C_k)$
+            \item Use Bayes theorem to find $p(C_k|x)$
+        \end{itemize}
+        \item Decision
+        \begin{itemize}
+            \item Make optimal assignment for new input (after learning the model in the inference stage)
+            \item if $p(C_i|x) > p(C_j|x) \forall j \neq i$, then decide $C_i$ .
+        \end{itemize}
+    \end{enumerate}
+\end{frame}
+
+%%%% 2.5 %%%%%
+\begin{frame}{Generative Approach Cont.}
+
+    \begin{itemize}
+        \item Generative approach for a binary classification problem:
+    \end{itemize}
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=0.4\textwidth]{pic/Generative.png}
+      \caption*{\footnotesize [Bishop]}
+      \end{figure}
+\end{frame}
+%%%% 3 %%%%
+\begin{frame}{Discriminative Approach}
+    \begin{enumerate}
+        \item Inference
+        \begin{itemize}
+            \item Determine the posterior class probabilities $p(C_k|x)$ directly.
+        \end{itemize}
+        \item Decision
+        \begin{itemize}
+            \item Make optimal assignment for new input (after learning the model in the inference stage)
+            \item if $p(C_i|x) > p(C_j|x) \forall j \neq i$, then decide $C_i$ .
+        \end{itemize}
+    \end{enumerate}
+\end{frame}
+%%%% 3.5 %%%%%%
+\begin{frame}{Discriminative Approach Cont.}
+    \begin{itemize}
+        \item Discriminative approach for a binary classification problem:
+    \end{itemize}
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=0.4\textwidth]{pic/Disc.png}
+      \caption*{\footnotesize [Bishop]}
+      \end{figure}
+\end{frame}
+%%% 4 %%%%
+    %% partition photos into 2 slides
+% \begin{frame}{Discriminative vs. Generative approach}
+%   \begin{figure}[h]
+%   \centering
+%   \includegraphics[width=\textwidth]{pic/GvD.png}
+%   \caption*{[Bishop]}
+%   % \label{fig:image}
+% \end{figure}
+% \end{frame}
+
+
+\section{Logistic Regression}
+
+\subsection{Basics}
+
+
+%%%% 5 %%%%%
+\begin{frame}{Basics}
+    \begin{itemize}
+        \item Logistic Regression is a \textbf{discriminative} approach.
+    \end{itemize}
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=0.6\textwidth]{pic/logisticR-Linear.png}
+      % \label{fig:image}
+    \end{figure}
+    \begin{itemize}
+        \item First think of a binary classification task (so $K=2$).
+        \item We try to find a $f(x;w)$ which predicts \textbf{posterior} probabilities $P(y=1|x)$.
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
     \end{itemize}
     
 \end{frame}
 %%%% 5.1 %%%%%%%%%
+<<<<<<< HEAD
 \begin{frame}{Introduction (cont.)}
+=======
+\begin{frame}{Basics Cont.}
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
     \begin{itemize}
         \item $f(x;w)$: probability that $y=1$ given $x$ (parameterized by \textbf{$\textbf{w}$})
       \begin{align*}
@@ -195,15 +434,25 @@ subsubsectionstyle=show/shaded/hide]
         P(y=0|x,\mathbf{w}) &= 1 - f(x;\mathbf{w})
       \end{align*}
 
+<<<<<<< HEAD
         \item We need to look for a function which gives us an output in the range [0, 1]. (like a probability).
 
         \item Let's denote this function with $\sigma (.)$ and call it the \textbf{activation function}.
+=======
+        \item We need to look for a function which gives us an output in range [0, 1]. (like a probability).
+
+        \item Let's note this function with $\sigma (.)$ and name it \textbf{activation function}.
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
         
     \end{itemize}
 \end{frame}
 
 %%%% 6 %%%%%
+<<<<<<< HEAD
 \begin{frame}{Introduction (cont.)}
+=======
+\begin{frame}{Basics Cont.}
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
     \begin{minipage}{0.55\textwidth}
     \begin{itemize}
         \item Sigmoid (logistic) function.
@@ -234,7 +483,11 @@ subsubsectionstyle=show/shaded/hide]
 %     \end{itemize}
 % \end{frame}
 %%%% 8 %%%%%
+<<<<<<< HEAD
 \begin{frame}{Introduction (cont.)}
+=======
+\begin{frame}{Basics Cont.}
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
     \begin{itemize}
       \item The sigmoid function takes a number as input but we have:
     \end{itemize}
@@ -256,6 +509,7 @@ subsubsectionstyle=show/shaded/hide]
     \end{itemize}
 \end{frame}
 %%%%% 9 %%%%%%%
+<<<<<<< HEAD
 \subsection{Decision surface}
 \begin{frame}{Decision surface}
     \begin{itemize}
@@ -272,6 +526,15 @@ subsubsectionstyle=show/shaded/hide]
     \begin{itemize}
         
       \item Decision boundary hyperplane always has \textbf{one less dimension} than the feature space.
+=======
+\subsection{Decision Surface}
+\begin{frame}{Decision Surface}
+    \begin{itemize}
+      \item Decision surface or decision boundary is the region of a problem space in which the output label of a classifier is ambiguous.
+      \item In binary classification it is where the probability of a sample belonging to each $y=0$ and $y=1$ is equal.
+      \item Decision boundary hyperplane has always 
+      \textbf{one less dimension} than the feature space.
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
       
       
       %%% next slide
@@ -281,6 +544,7 @@ subsubsectionstyle=show/shaded/hide]
     \end{itemize}
 \end{frame}
 %%%%% 9.4 %%%%%%
+<<<<<<< HEAD
 \begin{frame}{Decision surface (cont.)}
 
     \begin{itemize}
@@ -299,6 +563,21 @@ subsubsectionstyle=show/shaded/hide]
 %%%% 9.5 %%%%%
 
 \begin{frame}{Decision surface (cont.)}
+=======
+\begin{frame}{Decision Surface Cont.}
+
+    \begin{itemize}
+        \item An example of decision boundaries:
+    \end{itemize}
+    \begin{center}
+        \includegraphics[width=0.85\textwidth]{pic/DBoundary.png}
+        \captionof{figure}{\footnotesize [Eric Xing, Machine Learning, CMU]}
+    \end{center}
+\end{frame}
+%%%% 9.5 %%%%%
+
+\begin{frame}{Decision Surface Cont.}
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
     \begin{itemize}
       \item Back to our logistic regression problem.
       \item Decision surface $f(x;w) = $ \textbf{constant}.
@@ -318,6 +597,7 @@ subsubsectionstyle=show/shaded/hide]
 \end{frame}
 
 %%%% 10 %%%%
+<<<<<<< HEAD
 \begin{frame}{Decision boundary example}
     \begin{align*}
         f(x;w) = \sigma (w_0 + w_1 x_1 + w_2 x_2)
@@ -364,12 +644,22 @@ subsubsectionstyle=show/shaded/hide]
 \subsection{ML estimation}
 
 \begin{frame}{ML estimation}
+=======
+
+\subsection{ML Estimation}
+
+\begin{frame}{ML Estimation}
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
     \begin{itemize}
         \item We had posterior of a sample as:
         \begin{align*}
             p(y^{(i)}|x^{(i)},\mathbf{w})
         \end{align*}
+<<<<<<< HEAD
         \item Logistic regression should maximize production of all these sample posteriors.
+=======
+        \item Logistic Regressions should maximize production of all these sample posteriors.
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
         
         \item Maximum (conditional) log likelihood:
         \begin{align*}
@@ -383,9 +673,15 @@ subsubsectionstyle=show/shaded/hide]
     \end{itemize}
 \end{frame}
 %%%%%% 10.5 %%%%%%%%%%
+<<<<<<< HEAD
 \begin{frame}{ML estimation}
     \begin{itemize}
         \item Logarithm of the posterior probability:
+=======
+\begin{frame}{ML Estimation}
+    \begin{itemize}
+        \item Log of posterior probability:
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
             \[
             \log p(y^{(i)}|x^{(i)}, \mathbf{x})=
             y^{(i)}\log (f(x^{(i)}; \mathbf{w})) + 
@@ -404,14 +700,23 @@ subsubsectionstyle=show/shaded/hide]
 
 
 %%%%% 11 %%%%%
+<<<<<<< HEAD
 \subsection{Cost function}
 \begin{frame}{Cost function}
+=======
+\subsection{Cost Function}
+\begin{frame}{Cost Function}
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
     \begin{itemize}
     \item We should find 
         \begin{align*}
             \mathbf{\hat{w}} = \underset{w}{\arg\min} \hspace{0.2cm} J(w)
         \end{align*}
+<<<<<<< HEAD
         \item MLE finds parameters that best describe a classification problem so cost function should be negative of log likelihood term:
+=======
+        \item MLE finds parameters that best describes a classification problem so cost function should be negative of log likelihood term:
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
         \begin{align*}
             J(w) &= -\sum_{i=1}^{n} \log p(y^{(i)}|wx^{(i)}, \mathbf{w})\\
             &= \sum_{i=1}^{n}-y^{(i)}\log (f(x^{(i)}; \mathbf{w})) - 
@@ -423,11 +728,19 @@ subsubsectionstyle=show/shaded/hide]
 \end{frame}
 
 %%%%% 11.5 %%%%%%%%%%
+<<<<<<< HEAD
 \begin{frame}{Cost function (cont.)}
     \begin{itemize}
     \item Convexity of $J(w)$ can easily be proved:
         \begin{itemize}
             \item We use the lemma that sum of several convex functions is still convex (you can prove it on your own).
+=======
+\begin{frame}{Cost Function Cont.}
+    \begin{itemize}
+    \item Convexity of $J(w)$ can easily be proved:
+        \begin{itemize}
+            \item We use the lemma that sum of several convex functions is still convex (you can prove it on you own).
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
             \item Each term in the summation is differentiable (twice).
             \item If you twice get derivative of (with respect to $f$):
                 \[
@@ -444,7 +757,11 @@ subsubsectionstyle=show/shaded/hide]
     \end{itemize}
 \end{frame}
 %%%%% 11.7 %%%%%%
+<<<<<<< HEAD
 \begin{frame}{Cost function (cont.)}
+=======
+\begin{frame}{Cost Function Cont.}
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
     \begin{itemize}
     \item Visualization of each binary cross entropy loss term ($p$ is our prediction or $f(x;w)$):
     \end{itemize}
@@ -463,8 +780,13 @@ subsubsectionstyle=show/shaded/hide]
 
 %%%% 12 %%%%%%
 
+<<<<<<< HEAD
 \subsection{Gradient descent}
 \begin{frame}{Gradient descent}
+=======
+\subsection{Gradient Descent}
+\begin{frame}{Gradient Descent}
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
     \begin{itemize}
     \item Remember from previous slides:
         \[
@@ -488,7 +810,11 @@ subsubsectionstyle=show/shaded/hide]
     \end{itemize}
 \end{frame}
 %%%%%% 12.5 %%%%%%%
+<<<<<<< HEAD
 \begin{frame}{Gradient descent}
+=======
+\begin{frame}{Gradient Descent}
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
     \begin{itemize}
     
     \item Compare the gradient of \textcolor{deepgreen}{logistic regression} with the gradient of \textcolor{blue}{SSE} in \textcolor{blue}{linear regression} :
@@ -506,7 +832,11 @@ subsubsectionstyle=show/shaded/hide]
 
 %%%%% 13 %%%%%%%%
 
+<<<<<<< HEAD
 \begin{frame}{Loss function}
+=======
+\begin{frame}{Loss Function}
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
     \begin{itemize}
         %% delete paranthesis
         \item Loss function is a single overall measure of loss incurred for taking our decisions (over entire dataset).
@@ -522,7 +852,11 @@ subsubsectionstyle=show/shaded/hide]
                     - \log (1 - f(x; \mathbf{w})) & \textbf{if } y = 0
                 \end{cases}
             \]
+<<<<<<< HEAD
         \item How is it related to zero-one loss? ($\hat{y}$ is the predicted label and $y$ is the ture label)
+=======
+        \item How is it related to zero-one loss? ($\hat{y}$ is the predicted and $y$ is the ture label)
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
            \[
                Loss(y, \hat{y}) =  \begin{cases}
                     1 & \textbf{if } y \neq \hat{y} \\
@@ -533,6 +867,7 @@ subsubsectionstyle=show/shaded/hide]
 \end{frame}
 
 %%%%% 14 %%%%%%
+<<<<<<< HEAD
 % \begin{frame}{Cost Function Summary}
 %     \begin{itemize}
 %         \item Logistic regression (LR) has a more proper cost function for classification than SSE and Perceptron.
@@ -548,6 +883,23 @@ subsubsectionstyle=show/shaded/hide]
 %             \end{itemize}
 %     \end{itemize}
 % \end{frame}
+=======
+\begin{frame}{Cost Function Summary}
+    \begin{itemize}
+        \item Logistic Regression (LR) has a more proper cost function for classification than SSE and Perceptron.
+
+        \item Why is the cost function of LR also more suitable than 
+            \begin{align*}
+                J(w) = \frac{1}{n}\sum_{i=1}^{n}(y^{(i)} - f(x^{(i)}; \mathbf{w}))^2
+            \end{align*}
+        Where $f(x; \mathbf{w}) = \sigma(\mathbf{w}^Tx)$?
+            \begin{itemize}
+                \item The conditional distribution $p(y|x, \mathbf{w})$ in the classification problem is not Guassian (it is \textbf{Bernoulli}).
+                \item The cost function of LR is also convex.
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
 
 %%%%%% 15 %%%%%%%
 
@@ -555,6 +907,7 @@ subsubsectionstyle=show/shaded/hide]
 \begin{frame}{Multi-class logistic regression}
     \begin{itemize}
         \item Now consider a problem where we have $K$ classes and every sample only belongs to one class (for simplicity).
+<<<<<<< HEAD
         % \item For each class $k$, $f_k(x; \mathbf{W})$ predicts the probability of $y=k$.
         %     \begin{itemize}
         %         \item i.e., $P(y=k|x, \mathbf{W})$
@@ -578,6 +931,9 @@ subsubsectionstyle=show/shaded/hide]
 \begin{frame}{Multi-class logistic regression (cont.)}
     \begin{itemize}
          \item For each class $k$, $f_k(x; \mathbf{W})$ predicts the probability of $y=k$.
+=======
+        \item For each class $k$, $f_k(x; \mathbf{W})$ predicts the probability of $y=k$.
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
             \begin{itemize}
                 \item i.e., $P(y=k|x, \mathbf{W})$
             \end{itemize}
@@ -595,9 +951,14 @@ subsubsectionstyle=show/shaded/hide]
     \end{itemize}
 \end{frame}
 
+<<<<<<< HEAD
 
 %%%%% 16 %%%%%%%
 \begin{frame}{Multi-class logistic regression (cont.)}
+=======
+%%%%% 16 %%%%%%%
+\begin{frame}{Multi-class logistic regression Cont.}
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
     \begin{itemize}
         \item $K > 2$ and $y \in \{1,2,\dots,K\}$
         \begin{align*}
@@ -615,7 +976,11 @@ subsubsectionstyle=show/shaded/hide]
     \end{itemize}
 \end{frame}
 %%%%% 16.5 %%%%%
+<<<<<<< HEAD
 \begin{frame}{Multi-class logistic regression (cont.)}
+=======
+\begin{frame}{Multi-class logistic regression Cont.}
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
     \begin{itemize}
         \item Softmax function \textbf{smoothly} highlights the maximum probability and is differentiable.
         \item Compare it with $\max (.)$ function which is strict and non-differentiable
@@ -628,7 +993,11 @@ subsubsectionstyle=show/shaded/hide]
 \end{frame}
 
 %%%% 16.6 %%%%%
+<<<<<<< HEAD
 \begin{frame}{Multi-class logistic regression (cont.)}
+=======
+\begin{frame}{Multi-class logistic regression Cont.}
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
     \begin{itemize}
         \item An example of applying softmax (note that $z_i=w^Tx_i$):
     \end{itemize}
@@ -639,7 +1008,11 @@ subsubsectionstyle=show/shaded/hide]
 \end{frame}
 
 %%%% 17 %%%%%
+<<<<<<< HEAD
 \begin{frame}{Multi-class logistic regression (cont.)}
+=======
+\begin{frame}{Multi-class logistic regression Cont.}
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
     \begin{itemize}
         \item Again we set $J(W)$ as negative of log likelihood.
         \item We need $\hat{W} = \underset{W}{\arg\min} \hspace{0.2cm} J(W)$
@@ -654,7 +1027,11 @@ subsubsectionstyle=show/shaded/hide]
     
 \end{frame}
 %%%%%%% 17.5 %%%%%%%
+<<<<<<< HEAD
 \begin{frame}{Multi-class logistic regression (cont.)}
+=======
+\begin{frame}{Multi-class logistic regression Cont.}
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
     \begin{itemize}
         \item From previous slides we have:
             \begin{align*}
@@ -688,7 +1065,11 @@ subsubsectionstyle=show/shaded/hide]
     \end{itemize}
 \end{frame}
 %%%%%% 18 %%%%%%%%
+<<<<<<< HEAD
 \begin{frame}{Multi-class logistic regression (cont.)}
+=======
+\begin{frame}{Multi-class logistic regression Cont.}
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
     \begin{itemize}
         \item Update rule for gradient descent:
         
@@ -699,13 +1080,18 @@ subsubsectionstyle=show/shaded/hide]
         \end{align*}
         
     \begin{itemize}
+<<<<<<< HEAD
         \item $w_j^t$ denotes the weight vector for class $j$ (since in multi-class LR, each class has its own weight vector) in the $t$-th iteration
+=======
+        \item $w_j^t$ denotes the weight vector for class $j$ (since in multi-class LR each class has its own weight vector) in the $t$-th iteration
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
     \end{itemize}
 \end{frame}
 
 
 \section{Summary}
 
+<<<<<<< HEAD
 \begin{frame}{Logistic regression (LR) summary}
     \begin{itemize}
         \item LR is a \textbf{linear} classifier
@@ -713,6 +1099,15 @@ subsubsectionstyle=show/shaded/hide]
             % \begin{itemize}
             %     \item when assuming \textbf{Bernoulli} distribution for conditional probabilities whose mean is $\frac{1}{1 + e^{-(w^Tx)}}$
             % \end{itemize}
+=======
+\begin{frame}{Logistic Regression (LR) Summary}
+    \begin{itemize}
+        \item LR is a \textbf{linear} classifier
+        \item LR optimization problem is obtained by \textbf{maximum likelihood}
+            \begin{itemize}
+                \item when assuming \textbf{Bernoulli} distribution for conditional probabilities whose mean is $\frac{1}{1 + e^{-(w^Tx)}}$
+            \end{itemize}
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
         \item No closed-form solution for its optimization problem
             \begin{itemize}
                 \item But convex cost function and global optimum can be found by gradient ascent
@@ -910,6 +1305,7 @@ subsubsectionstyle=show/shaded/hide]
 %     \begin{itemize}
 %         \item more information \href{https://ja.overleaf.com/learn/latex/Mathematical_expressions}{\color{purple}{here}}
 %     \end{itemize}
+<<<<<<< HEAD
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Extra reading}
 \subsection{Probabilistic view in classification}
@@ -1162,6 +1558,70 @@ subsubsectionstyle=show/shaded/hide]
     \nocite{*}
 \end{frame}
 
+=======
+% \end{frame}
+
+% \begin{frame}[fragile]
+%     \begin{columns}
+%         \column{.6\textwidth}
+% \begin{lstlisting}[language=TeX]
+% \begin{table}[htbp]
+%   \caption{numbers & meaning}
+%   \label{tab:number}
+%   \centering
+%   \begin{tabular}{cl}
+%     \toprule
+%     number & meaning \\
+%     \midrule
+%     1 & 4.0 \\
+%     2 & 3.7 \\
+%     \bottomrule
+%   \end{tabular}
+% \end{table}
+% \end{lstlisting}
+%         \column{.4\textwidth}
+%         \begin{table}[htpb]
+%             \centering
+%             \caption{numbers \& meaning}
+%             \label{tab:number}
+%             \begin{tabular}{cl}\toprule
+%                 numbers & meaning \\\midrule
+%                 1 & 4.0\\
+%                 2 & 3.7\\\bottomrule
+%             \end{tabular}
+%         \end{table}
+%         \normalsize formula~(\ref{eq:vsphere}) at previous slide and Table~\ref{tab:number}。
+%     \end{columns}
+% \end{frame}
+
+% \section{Results}
+% \begin{frame}
+%     \begin{itemize}
+%         \item \lipsum[4][1-4]
+%         \item \lipsum[4][5-9]
+%         \item \lipsum[5][1-4]
+%         \item \lipsum[5][5-8]
+%     \end{itemize}
+% \end{frame}
+
+\section{References}
+
+\begin{frame}[allowframebreaks]
+    \bibliography{ref}
+    \bibliographystyle{ieeetr}
+    [1]. Dr.Soleymani Baghshah, Machine Learning course, Sharif University of Technology.
+
+    [2]. C. Bishop, “Pattern Recognition and Machine Learning”, Chapter 4.2-4.3.
+
+    [3]. Sanja Fidler’s Slides, University of Toronto, CSC411
+    % [2]. Andrew Ng and Tenguya Ma, CS299 Lecture Notes
+    % \nocite{*} % used here because no citation happens in slides
+    % if there are too many try use：
+    % \tiny\bibliographystyle{alpha}
+\end{frame}
+
+
+>>>>>>> Remote-from-Sharifi-Zarchi/Danial-Gharib-Logistic-Regression-slides-0
 \begin{frame}
     \begin{center}
         {\Huge Any Questions?}
